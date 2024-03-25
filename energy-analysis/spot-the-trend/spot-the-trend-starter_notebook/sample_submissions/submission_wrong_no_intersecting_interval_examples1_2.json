@@ -1,0 +1,14 @@
+{
+    "data/train/example1.csv": [
+        [
+            580000,
+            630000
+        ]
+    ],
+    "data/train/example2.csv": [
+        [
+            650000,
+            700000
+        ]
+    ]
+}
