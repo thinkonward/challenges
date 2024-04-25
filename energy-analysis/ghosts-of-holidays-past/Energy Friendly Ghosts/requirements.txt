@@ -1,0 +1,17 @@
+catboost==1.2.3
+matplotlib==3.8.3
+numpy==1.26.4
+pandas==2.1.4
+pyspark==3.5.1
+Requests==2.31.0
+rtdip_sdk==0.10.3
+scikit_learn==1.4.1.post1
+tqdm==4.66.2
+
+polars==0.20.14
+polars-lts-cpu==0.20.14
+xarray==2024.2.0
+delta_sharing==1.0.3
+ecmwf-api-client==1.6.3
+
+jupyterlab

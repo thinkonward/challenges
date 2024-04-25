@@ -1,0 +1,14 @@
+lightgbm==3.3.2
+rtdip-sdk[pipelines]==0.10.8
+openmeteo-requests==1.2.0
+holidays==0.43
+notebook==6.4.12
+traitlets==5.9.0
+jupyter-contrib-nbextensions==0.5.1
+delta==0.4.2
+delta-spark==3.1.0
+requests-cache==1.1.1
+retry-requests==2.0.0
+openmeteo-requests==1.2.0
+mlforecast==0.11.8
+astral==3.2

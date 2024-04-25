@@ -1,0 +1,9 @@
+lightgbm==3.3.2
+matplotlib==3.8.2
+numpy==1.26.4
+pandas==1.5.3
+Requests==2.31.0
+rtdip_sdk==0.9.11
+scikit_learn==1.3.2
+scipy==1.12.0
+seaborn==0.13.2
