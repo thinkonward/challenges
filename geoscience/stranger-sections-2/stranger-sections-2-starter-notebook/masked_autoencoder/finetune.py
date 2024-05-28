@@ -25,7 +25,7 @@ class SegmentationHead(nn.Module):
     Returns:
         x: tensor, output tensor of the segmentation head
     '''
-    def __init__(self, channels, num_classes, num_features=4):
+    def __init__(self, channels, num_classes, num_features=1):
         super().__init__()
         self.embedding_layer = nn.Linear(self.head_embed_dim, self.patch_shape[0]*self.patch_shape[1], bias=True)
 
@@ -56,9 +56,24 @@ class SegmentationViT(nn.Module):
         self.mask_token = nn.Parameter(torch.zeros(1, 1, self.decoder_embed_dim))
         self.sequence_length = backbone.seq_length
         
+        #-------------------------------------------------------------------------
+        # Encoder parameters taken from preloaded ViT model checkpoint
+        
         self.backbone = masked_autoencoder.MAEBackbone.from_vit(backbone)
-        self.decoder_embed = nn.Linear(self.embed_dim, self.decoder_embed_dim, bias=True)
+
+        #-------------------------------------------------------------------------
+        # Decoder parameters taken from Meta VitMAE research repo
+        # https://github.com/facebookresearch/mae/blob/main/models_mae.py
+
+        self.decoder_embed = nn.Linear(self.embed_dim, self.decoder_embed_dim, bias=True) #embedding layer acts as connection between encoder and decoder
         self.mask_token = nn.Parameter(torch.full([1, 1, decoder_dim], -1.0))
+        self.decoder_pred = SegmentationHead(backbone.embed_dim, num_classes=4, num_features=1)
+
+        self.decoder_blocks = nn.ModuleList([
+            Block(decoder_embed_dim, decoder_num_heads, mlp_ratio, qkv_bias=True, qk_scale=None, norm_layer=norm_layer)
+            for i in range(decoder_depth)])
+
+        self.decoder_norm = norm_layer(decoder_embed_dim)
 
 
         
@@ -76,10 +91,18 @@ class SegmentationViT(nn.Module):
         
         
     def forward_encoder(self, x, idx_keep=None):
+        '''
+        Encoder forward pass. Taken directly from pretrained ViT model
+        '''
         x = self.backbone.encode(x, idx_keep)
         return x
 
     def forward_decoder(self, x):
+        '''
+        Modified forward pass for the decoder from Meta's VitMAE research repo.
+        https://github.com/facebookresearch/mae/blob/main/models_mae.py
+        '''
+
         # embed tokens
         x = self.decoder_embed(x)
 
@@ -97,10 +120,19 @@ class SegmentationViT(nn.Module):
             x = blk(x)
         x = self.decoder_norm(x)
 
-        # predictor projection
+        # use the segmentation head to predict the segmentation mask
         x = self.decoder_pred(x)
 
         return x
+    
+    def forward(self, image, label):
+        latent = self.forward_encoder(image)
+        pred = self.forward_decoder(latent)
+
+        criterion = nn.CrossEntropyLoss(ignore_index=0)
+        loss = criterion(pred, label)
+
+        return pred, loss
 
     
 def finetune_vit(dataset: str,
@@ -120,7 +152,6 @@ def finetune_vit(dataset: str,
                  n_epochs: int = 50,
                  cyclic_schedule: bool = False,
                  cyclic_step_size: int = 1000,
-                 masking_rate: float = 0.75,
                  decoder_dim: int = 1024,
                  freeze_embeddings: bool = True,
                  freeze_projection: bool = True,
@@ -222,8 +253,7 @@ def finetune_vit(dataset: str,
         for batch in dataloader:
             views = batch[0]
             images = views[0].to(device)  # views contains only a single view
-            predictions, targets = model(images)
-            loss = criterion(predictions, targets)
+            loss, pred = model(images)
             total_loss += loss.detach()
             loss.backward()
             optimizer.step()
@@ -266,14 +296,13 @@ def finetune_vit(dataset: str,
 @click.option('--end-factor', type=float, default=0.5, help='Final decay factor for linear LR schedule')
 @click.option('--cyclic-schedule', type=bool, default=False, is_flag=True, help='Use pre-optimized cyclic LR schedule')
 @click.option('--cyclic-step-size', type=int, default=1000, help='Number for iterations for half of LR cycle')
-@click.option('--masking-rate', type=float, default=0.75, help='Masking rate for pretraining')
 @click.option('--decoder-dim', type=int, default=1024, help='Dimension of the decoder tokens')       
 @click.option('--freeze-projection', type=bool, default=False, is_flag=True, help='Freeze class token and convolutional projection layer of ViT') 
 @click.option('--freeze-embeddings', type=bool, default=False, is_flag=True, help='Freeze positional embedding layer of ViT')  
 def main(dataset, output, transform_min_scale, transform_normalize, vit_model,
          local_checkpoint, starting_weights, batch_size, n_workers, optimizer, 
          lr, optimizer_params, n_epochs, warmup_epochs, start_factor, linear_schedule,
-         end_factor, cyclic_schedule, cyclic_step_size, masking_rate, decoder_dim, 
+         end_factor, cyclic_schedule, cyclic_step_size, decoder_dim, 
          freeze_projection, freeze_embeddings):
 
     transform_kwargs = {'min_scale': transform_min_scale, 'normalize': transform_normalize}
@@ -296,7 +325,6 @@ def main(dataset, output, transform_min_scale, transform_normalize, vit_model,
                  end_factor=end_factor,
                  cyclic_schedule=cyclic_schedule,
                  cyclic_step_size=cyclic_step_size,
-                 masking_rate=masking_rate,
                  decoder_dim = decoder_dim,
                  freeze_projection=freeze_projection,
                  freeze_embeddings=freeze_embeddings,
