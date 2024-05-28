@@ -1,14 +1,14 @@
 import torch
 import torchvision
-from torchvision.datasets import ImageFolder
 from torch import nn
 from torch.optim.lr_scheduler import CyclicLR, ConstantLR, SequentialLR, LinearLR
 from lightly.models import utils
 from lightly.models.modules import masked_autoencoder
 from lightly.transforms.mae_transform import MAETransform
+from masked_autoencoder.dataset import ImageDataset
+from timm.models.vision_transformer import Block
 import sys
 import os
-from dataset import ImageDataset
 import click
 import json
 import matplotlib.pyplot as plt
@@ -47,14 +47,26 @@ class SegmentationViT(nn.Module):
                  backbone: nn.Module,  
                  freeze_projection: bool = True,
                  freeze_embeddings: bool = True, 
-                 decoder_dim: int = 1024):
+                 decoder_embed_dim: int = 1024,
+                 norm_layer: nn.Module = nn.LayerNorm,
+                 decoder_depth: int = 6,
+                 decoder_num_heads: int = 8,
+                 mlp_ratio: int = 4.,
+                 in_channels: int = 3,
+                 classes: int = 4
+                 ):
         
         super().__init__()
 
-        self.decoder_dim = decoder_dim
+        self.img_size = backbone.img_size
+        self.embed_dim = backbone.embed_dim
         self.patch_size = backbone.patch_size
+        self.num_patches = backbone.num_patches
+        self.decoder_embed_dim = decoder_embed_dim
         self.mask_token = nn.Parameter(torch.zeros(1, 1, self.decoder_embed_dim))
         self.sequence_length = backbone.seq_length
+        self.in_channels = in_channels
+        self.classes = classes
         
         #-------------------------------------------------------------------------
         # Encoder parameters taken from preloaded ViT model checkpoint
@@ -66,8 +78,9 @@ class SegmentationViT(nn.Module):
         # https://github.com/facebookresearch/mae/blob/main/models_mae.py
 
         self.decoder_embed = nn.Linear(self.embed_dim, self.decoder_embed_dim, bias=True) #embedding layer acts as connection between encoder and decoder
-        self.mask_token = nn.Parameter(torch.full([1, 1, decoder_dim], -1.0))
-        self.decoder_pred = SegmentationHead(backbone.embed_dim, num_classes=4, num_features=1)
+        self.mask_token = nn.Parameter(torch.full([1, 1, decoder_embed_dim], -1.0))
+        
+        self.decoder_pos_embed = nn.Parameter(torch.zeros(1, self.num_patches + 1, decoder_embed_dim), requires_grad=False)
 
         self.decoder_blocks = nn.ModuleList([
             Block(decoder_embed_dim, decoder_num_heads, mlp_ratio, qkv_bias=True, qk_scale=None, norm_layer=norm_layer)
@@ -75,7 +88,9 @@ class SegmentationViT(nn.Module):
 
         self.decoder_norm = norm_layer(decoder_embed_dim)
 
-
+        # basic segmentation head based on SegFormer implementation: https://github.com/FrancescoSaverioZuppichini/SegFormer
+        self.decoder_pred = SegmentationHead(self.embed_dim, num_classes=self.classes, num_features=1)
+        # -----------------------------------------------------------------------
         
         self.freeze_projection = freeze_projection
         self.freeze_embeddings = freeze_embeddings
@@ -92,7 +107,7 @@ class SegmentationViT(nn.Module):
         
     def forward_encoder(self, x, idx_keep=None):
         '''
-        Encoder forward pass. Taken directly from pretrained ViT model
+        Encoder forward pass. Taken directly from pretrained ViT model. Set idx_keep to None for finetune training.
         '''
         x = self.backbone.encode(x, idx_keep)
         return x
@@ -126,6 +141,9 @@ class SegmentationViT(nn.Module):
         return x
     
     def forward(self, image, label):
+        '''
+        Forward pass for the model. Returns the prediction and loss.
+        '''
         latent = self.forward_encoder(image)
         pred = self.forward_decoder(latent)
 
@@ -218,10 +236,14 @@ def finetune_vit(dataset: str,
     # Loading unlabeled image dataset from folder
     dataset = torchvision.datasets.ImageFolder(root=dataset, transform=transform)
     
-    # load model type and weights from local checkpoint here
-    backbone = torchvision.models.get_model(vit_model)
-    backbone.load_state_dict(torch.load(starting_weights))
-    print(f'Local checkpoint loaded: {starting_weights}')
+    if local_checkpoint:
+        backbone = torchvision.models.get_model(vit_model)
+        backbone.load_state_dict(torch.load(starting_weights))
+        print(f'Local checkpoint loaded: {starting_weights}')
+    else:
+        weights = torchvision.models.get_weight(starting_weights)
+        backbone = torchvision.models.get_model(vit_model, weights=weights)
+        print(f'Pretrained checkpoint loaded: {starting_weights}')
     
     model = SegmentationViT(backbone, 
                 decoder_dim=decoder_dim, 

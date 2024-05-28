@@ -16,12 +16,13 @@ from PIL import Image
 
 
 class ImageDataset(Dataset):
-    def __init__(self, root_dir, transform):
+    def __init__(self, root_dir, transform, target_transform):
         self.root_dir = root_dir
         self.image_folder = os.path.join(root_dir, 'image')
         self.label_folder = os.path.join(root_dir, 'label')
         self.image_filenames = [file for file in os.listdir(self.image_folder) if file.endswith(('.JPG','.jpg','.jpeg', '.JPEG'))]
         self.transform = transform
+        self.target_transform = target_transform
         
     def __len__(self):
         return len(self.image_filenames)
@@ -34,4 +35,5 @@ class ImageDataset(Dataset):
         image = self.transform(image)
         label = np.load(label_name)
         label = torch.from_numpy(label)
+        label = self.target_transform(label)
         return image, label
