@@ -1,0 +1,7 @@
+lightgbm==2.3.1
+matplotlib==3.5.3
+numpy==1.24.3
+pandas==2.0.3
+requests==2.31.0
+rtdip_sdk==0.9.5
+scipy==1.10.1
