@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import sklearn.metrics as jaccard_score
+from matplotlib.ticker import MultipleLocator
 
 def plot_report(history: dict, x_locator_tick: int = 10):
     fig, ax1 = plt.subplots(figsize=(8, 8))
@@ -24,4 +25,4 @@ def plot_report(history: dict, x_locator_tick: int = 10):
     ax2.set_ylabel("Base learning rate", color="#3399e6", fontsize=14)
     ax2.tick_params(axis="y", labelcolor="#3399e6")
     fig.suptitle("Training report", fontsize=18)
-    fig.gca().xaxis.set_major_locator(mticker.MultipleLocator(x_locator_tick))
+    fig.gca().xaxis.set_major_locator(MultipleLocator(x_locator_tick))

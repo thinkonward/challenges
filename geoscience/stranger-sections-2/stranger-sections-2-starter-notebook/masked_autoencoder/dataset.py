@@ -9,9 +9,9 @@ import numpy as np
 import glob
 import cv2
 import torch
-from torch.utils import Dataset
+from torch.utils.data import Dataset
 from typing import Any, Callable, Dict, List, Optional, Tuple
-from torchvision import transforms, VisionDataset
+from torchvision import transforms
 from torchvision.transforms import v2
 from PIL import Image
 
