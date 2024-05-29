@@ -7,6 +7,7 @@ from lightly.models.modules import masked_autoencoder
 from lightly.transforms.mae_transform import MAETransform
 from masked_autoencoder.dataset import ImageDataset
 from timm.models.vision_transformer import Block
+from torchvision.transforms import v2
 import sys
 import os
 import click
@@ -49,8 +50,8 @@ class SegmentationViT(nn.Module):
                  freeze_embeddings: bool = True, 
                  decoder_embed_dim: int = 1024,
                  norm_layer: nn.Module = nn.LayerNorm,
-                 decoder_depth: int = 6,
-                 decoder_num_heads: int = 8,
+                 decoder_depth: int = 8,
+                 decoder_num_heads: int = 16,
                  mlp_ratio: int = 4.,
                  in_channels: int = 3,
                  classes: int = 4
@@ -58,7 +59,7 @@ class SegmentationViT(nn.Module):
         
         super().__init__()
 
-        self.img_size = backbone.img_size
+        self.img_size = [backbone.img_size, backbone.img_size]
         self.embed_dim = backbone.embed_dim
         self.patch_size = backbone.patch_size
         self.num_patches = backbone.num_patches
@@ -231,11 +232,6 @@ def finetune_vit(dataset: str,
         
         return linear_scheduler, cyclic_scheduler
     
-    transform = MAETransform(**transform_kwargs)
-    
-    # Loading unlabeled image dataset from folder
-    dataset = torchvision.datasets.ImageFolder(root=dataset, transform=transform)
-    
     if local_checkpoint:
         backbone = torchvision.models.get_model(vit_model)
         backbone.load_state_dict(torch.load(starting_weights))
@@ -249,6 +245,10 @@ def finetune_vit(dataset: str,
                 decoder_dim=decoder_dim, 
                 freeze_embeddings=freeze_embeddings,
                 freeze_projection=freeze_projection)
+    
+    transform = MAETransform(**transform_kwargs)
+    
+    dataset = ImageDataset(root=dataset, img_size=model.img_size transform=transform, target_transform=transform)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model.to(device)
