@@ -1,0 +1,57 @@
+data_paths:
+  train_data_dir: "data/train"
+  val_data_dir: "data/val"
+  inference_input_data_dir: "data/holdout" # PATH TO HOLDOUT DATA
+  inference_output_data_dir: "data/predictions" # PATH TO WHERE PREDICTIONS TO BE STORED
+
+
+name: unet_model_final
+batch_size: 32
+classes: 99
+
+epochs: 30
+gpus: 1
+iterations: -1
+
+loss:
+  mode: multiclass
+  name: dice
+
+metric:
+  name: iou
+  params:
+    threshold: 0.2
+
+model:
+  name: unet
+  params:
+    encoder_name: "resnet34"        # choose encoder, e.g. mobilenet_v2 or efficientnet-b7
+    encoder_weights: "imagenet"     # use `imagenet` pre-trained weights for encoder initialization
+    in_channels: 1                  # model input channels (1 for gray-scale images, 3 for RGB, etc.)
+    classes: 99
+
+
+model_checkpoint:
+  filename: '{epoch}-{val_loss:.3f}-{val_metric:.3f}'
+  mode: max
+  monitor: val_metric
+  save_last: True
+  verbose: True
+  every_n_epochs: 1
+  save_top_k: 1
+
+
+lr: 0.001
+
+optimizer:
+  name: adam
+  params:
+    lr: 0.001
+    weight_decay: 0.000001
+
+scheduler:
+  additional_params:
+    monitor: val_loss
+  name: ExponentialLR
+  params:
+    gamma: 0.9
