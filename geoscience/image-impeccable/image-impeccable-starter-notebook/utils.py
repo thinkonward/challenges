@@ -52,7 +52,7 @@ def create_submission(seismic_filenames: list, prediction: list, submission_path
 
     submission = dict({})
     for sample_name, sample_prediction in zip(seismic_filenames, prediction):
-        vol_id = sample_name[:-9]
+        vol_id = sample_name.split(".")[0]
         i_slices_index = (
             np.array([0.25, 0.5, 0.75]) * sample_prediction.shape[0]
         ).astype(int)
