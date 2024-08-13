@@ -1,0 +1,31 @@
+,Province,Amount of deposits,Geological Feature,Importance Value,mean_for_1,mean_for_0
+0,Quebec,729,MagRTP_DeepSources,0.77,0.86,0.66
+1,Quebec,729,GeophysicsGravity,0.59,0.74,0.52
+2,Quebec,729,GeophysicsMag,0.63,0.75,0.57
+3,Quebec,729,GeophysicsLAB,0.97,1.08,0.83
+4,Quebec,729,GeophysicsMag_RTP,0.65,0.72,0.5
+5,Quebec,729,GeophysicsGravity_HGM,0.35,0.42,0.22
+6,British Columbia,166,MagRTP_DeepSources,0.82,0.88,0.74
+7,British Columbia,166,GeophysicsGravity,0.17,0.31,0.11
+8,British Columbia,166,GeophysicsMag,0.99,1.1,0.87
+9,British Columbia,166,GeophysicsLAB,0.8,0.92,0.71
+10,British Columbia,166,GeophysicsMag_RTP,0.28,0.33,0.22
+11,British Columbia,166,GeophysicsGravity_HGM,0.1,0.25,0.0
+12,Yukon,148,MagRTP_DeepSources,0.28,0.41,0.23
+13,Yukon,148,GeophysicsGravity,0.74,0.81,0.6
+14,Yukon,148,GeophysicsMag,0.81,0.88,0.73
+15,Yukon,148,GeophysicsLAB,0.65,0.72,0.53
+16,Yukon,148,GeophysicsMag_RTP,0.93,1.01,0.85
+17,Yukon,148,GeophysicsGravity_HGM,0.69,0.79,0.59
+18,Ontario,37,MagRTP_DeepSources,0.88,0.97,0.78
+19,Ontario,37,GeophysicsGravity,0.66,0.74,0.59
+20,Ontario,37,GeophysicsMag,0.4,0.51,0.25
+21,Ontario,37,GeophysicsLAB,0.16,0.22,0.03
+22,Ontario,37,GeophysicsMag_RTP,0.38,0.46,0.24
+23,Ontario,37,GeophysicsGravity_HGM,0.39,0.48,0.25
+24,Nunavut,108,MagRTP_DeepSources,0.63,0.73,0.52
+25,Nunavut,108,GeophysicsGravity,0.35,0.48,0.21
+26,Nunavut,108,GeophysicsMag,0.61,0.68,0.55
+27,Nunavut,108,GeophysicsLAB,0.44,0.54,0.37
+28,Nunavut,108,GeophysicsMag_RTP,0.97,1.08,0.92
+29,Nunavut,108,GeophysicsGravity_HGM,0.86,0.91,0.78
