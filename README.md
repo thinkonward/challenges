@@ -33,7 +33,7 @@ Feel free to check out the code and notebooks to learn more about these fascinat
 ### stranger-sections-2
 - A comprehensive starter notebook with helper notebooks, checkpoints, and data
 
-## 🔋 Energy Analysis Projects
+## 🔋 Energy Analysis Challenges
 
 ### building-instinct
 - A notebook to identify trends in building energy usage and winning solutions for the Challenge
