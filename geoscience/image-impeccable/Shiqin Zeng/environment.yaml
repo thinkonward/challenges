@@ -1,0 +1,24 @@
+name: Seismic_Denoising
+
+channels:
+  - pytorch
+  - conda-forge
+
+dependencies:
+  - python 3.9
+  - pytorch
+  - tensorboard
+  - tqdm
+  - setuptools
+  - h5py
+  - scipy
+  - scikit-image
+  - pyyaml
+  - pytest
+  - pandas
+  - matplotlib
+  - notebook
+  - pip
+  - pip:
+    - torchmetrics
+    - warmup_scheduler
