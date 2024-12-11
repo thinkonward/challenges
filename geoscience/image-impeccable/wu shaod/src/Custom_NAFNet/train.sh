@@ -1,0 +1,1 @@
+python -m torch.distributed.launch --nproc_per_node=4 --master_port=4321 basicsr/train.py -opt options/train/Custom/CUSTOM_NAFNet-width64-train.yml --launcher pytorch

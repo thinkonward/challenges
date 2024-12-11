@@ -1,0 +1,2 @@
+_target_: obsidian.metrics.metrics.SSIM
+data_range: 255

@@ -1,0 +1,54 @@
+name: final_solution_wushaodong
+model_type: ImageRestorationModel
+scale: 1
+num_gpu: 1
+manual_seed: 10
+
+datasets:
+  val:
+    name: Custom
+    type: J2CPairedImageDataset
+    root_dir: ./data/train_images_new_shape/
+    txt_file: ./train_txt/val_f0.txt
+    num_slices: 300
+    val_flag: true
+
+test_dir: ./data/test_images/
+test_res_save_root: ./data/test_images_inference_res/
+
+network_g:
+  type: NAFNet
+  img_channel: 1
+  width: 64
+  enc_blk_nums: [2, 2, 4, 8]
+  middle_blk_num: 12
+  dec_blk_nums: [2, 2, 2, 2]
+
+# path
+path:
+  pretrain_network_g: ./my_checkpoints/net_g_190000.pth
+  strict_load_g: true
+  resume_state: ~
+
+train:
+  mixing_augs:
+    mixup: false
+
+# validation settings
+val:
+  save_img: true
+  grids: false
+  use_image: false
+
+  metrics:
+    psnr: # metric name, can be arbitrary
+      type: calculate_psnr
+      crop_border: 0
+      test_y_channel: false
+    custom_ssim:
+      type: calculate_custom_ssim
+
+# dist training settings
+dist_params:
+  backend: nccl
+  port: 29500

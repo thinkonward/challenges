@@ -1,0 +1,18 @@
+training:
+  batch_size: 1
+  learning_rate: 1.5e-4
+  num_epochs: 1
+  warmup_epochs: 3
+  weight_decay: 1e-8
+  eta_min: 1.5e-6
+
+optimizer:
+  betas: [0.9, 0.999]
+  eps: 1e-8  # Ensure this is treated as a float and not a string
+
+scheduler:
+  warmup_multiplier: 1
+
+data:
+  start: 1
+  end: 1

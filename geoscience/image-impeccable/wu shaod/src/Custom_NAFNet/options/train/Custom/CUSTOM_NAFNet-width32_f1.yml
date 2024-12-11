@@ -1,0 +1,107 @@
+# ------------------------------------------------------------------------
+# Copyright (c) 2022 megvii-model. All Rights Reserved.
+# ------------------------------------------------------------------------
+# Modified from BasicSR (https://github.com/xinntao/BasicSR)
+# Copyright 2018-2020 BasicSR Authors
+# ------------------------------------------------------------------------
+# general settings
+name: NAFNet-width32-norm-data-hw-training-hflip-l1loss-in1-out1-f1
+model_type: ImageRestorationModel
+scale: 1
+num_gpu: 1
+manual_seed: 10
+
+datasets:
+  train:
+    name: Custom
+    type: J2CPairedImageDataset
+    root_dir: /root/autodl-tmp/Image_Impeccable_Journey_to_Clarity/data/train_images_new_shape/
+    txt_file: /root/autodl-tmp/Image_Impeccable_Journey_to_Clarity/data/train_txt/train_f1.txt
+    num_slices: 300
+
+    gt_size: 256
+    use_flip: true
+    use_rot: false
+
+    # data loader
+    num_worker_per_gpu: 4
+    batch_size_per_gpu: 16
+    dataset_enlarge_ratio: 1
+    prefetch_mode: ~
+
+  val:
+    name: Custom
+    type: J2CPairedImageDataset
+    root_dir: /root/autodl-tmp/Image_Impeccable_Journey_to_Clarity/data/train_images_new_shape/
+    txt_file: /root/autodl-tmp/Image_Impeccable_Journey_to_Clarity/data/train_txt/val_f1.txt
+    num_slices: 300
+    val_flag: true
+
+network_g:
+  type: NAFNet
+  img_channel: 1
+  out_channel: 1
+  width: 32
+  enc_blk_nums: [2, 2, 4, 8]
+  middle_blk_num: 12
+  dec_blk_nums: [2, 2, 2, 2]
+
+# path
+path:
+  pretrain_network_g: /root/autodl-tmp/Image_Impeccable_Journey_to_Clarity/pretrained/NAFNet-SIDD-width32.pth
+  strict_load_g: false
+  resume_state: ~
+
+# training settings
+train:
+  optim_g:
+    type: AdamW
+    lr: !!float 1e-3
+    weight_decay: 0.
+    betas: [0.9, 0.9]
+
+  scheduler:
+    type: TrueCosineAnnealingLR
+    T_max: 100000
+    eta_min: !!float 1e-7
+
+  total_iter: 100000
+  warmup_iter: -1 # no warm up
+
+  # losses
+  pixel_opt:
+    type: L1Loss
+    loss_weight: 1
+    reduction: mean
+
+# validation settings
+val:
+  val_freq: !!float 2000
+  save_img: false
+  use_image: false
+
+  metrics:
+    psnr: # metric name, can be arbitrary
+      type: calculate_psnr
+      crop_border: 0
+      test_y_channel: false
+    custom_ssim:
+      type: calculate_custom_ssim
+    # ssim:
+    #   type: calculate_ssim
+    #   crop_border: 0
+    #   test_y_channel: false
+
+# logging settings
+logger:
+  print_freq: 100
+  save_checkpoint_freq: !!float 2000
+  use_tb_logger: false
+  wandb:
+    project: ~
+    resume_id: ~
+
+# dist training settings
+dist_params:
+  backend: nccl
+  port: 29500

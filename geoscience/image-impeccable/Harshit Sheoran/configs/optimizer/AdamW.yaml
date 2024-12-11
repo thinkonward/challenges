@@ -1,0 +1,4 @@
+_partial_: true
+_target_: torch.optim.AdamW
+lr: 3e-4
+weight_decay: 1e-5
