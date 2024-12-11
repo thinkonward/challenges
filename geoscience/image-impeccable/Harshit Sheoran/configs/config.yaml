@@ -1,0 +1,53 @@
+defaults:
+  - _self_
+  - dataset: ObsidianDataset
+  - model: SMPModel
+  - criterion: MSELoss
+  - optimizer: AdamW
+  - scheduler: CosineAnnealing
+  - metric@metric_SSIM: SSIM
+  - metric@metric_MSE: MSE
+
+mode: 'train'
+V: '001'
+output_dir: ./data/exps/exp_${V}/temp
+n_gpus: 3
+log_every: 100
+seed: 3407
+neptune_run: false
+
+data_info:
+  data_csv: ./data/processed_train1.csv
+  fold: 0
+
+image_info:
+  height: 320
+  width: 1280
+
+dataloader:
+    train_batch_size: 8
+    valid_batch_size: 8
+    num_workers: 0
+    steps_per_epoch: -1
+
+training:
+  num_epochs: 100
+  
+  scheduler:
+    num_warmup_epoch: 1
+    upscale_steps: 1.5
+
+  amp: true
+  accum_steps: 1
+  ema:
+    ema_decay_per_epoch: 0.3
+
+validation:
+  validate_every_n_epochs: 1
+  ema: True
+  save_metric: SSIM
+  save_best: max
+
+hydra:
+  run:
+    dir: ${output_dir}
