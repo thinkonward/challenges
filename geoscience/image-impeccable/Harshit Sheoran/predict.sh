@@ -1,0 +1,1 @@
+accelerate launch --main_process_port=29501 test.py +mode=predict +cfg=models/v2s_v30/test_config.yaml +ckpt=models/v2s_v30/0_EMA.pth +data_info.data_csv=data/processed_test1.csv +flip_tta=1 +sub_name=v2s_v30_last_flip_obs.npz
