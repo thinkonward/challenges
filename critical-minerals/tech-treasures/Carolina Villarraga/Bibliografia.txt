@@ -1,0 +1,35 @@
+admin_boundaries
+https://www.sciencebase.gov/catalog/item/5ab555c6e4b081f61ab78093
+Licence http://open.canada.ca/en/open-government-licence-canada
+
+BC_bedrock_ll83, BC_faults_ll83 
+BRITISH COLUMBIA GEOLOGY BEDROCK
+https://www2.gov.bc.ca/gov/content/industry/mineral-exploration-mining/british-columbia-geological-survey/geology/bcdigitalgeology
+Cui, Y., Miller, D., Schiarizza, P., and Diakow, L.J., 2017. British Columbia digital geology. British Columbia Ministry of Energy, Mines and Petroleum Resources, British Columbia Geological Survey Open File 2017-8, 9p. Data version 2019-12-19.
+
+
+new_age.csv
+Geochronology
+Han, T., Ootes, L., and Yun, K. 2020. The new British Columbia Geological Survey geochronologic 
+database: Preliminary release of ages. British Columbia Ministry of Energy, Mines and Petroleum Resources, British Columbia 
+Geological Survey GeoFile 2020-10, 4p.
+https://www2.gov.bc.ca/gov/content/industry/mineral-exploration-mining/british-columbia-geological-survey/publications/geofiles#GF2020-10
+
+
+Critical Minerals
+MineralOccurrenceDataBC.csv
+MINFILE bc
+https://minfile.gov.bc.ca/searchresults.aspx?23=927&27=Any&t=1
+
+Critical minerals advanced projects, mines and processing facilities in Canada - Critical minerals in Canada 
+(Bilingual ESRI Shapefile vector dataset)
+https://open.canada.ca/data/en/dataset/22b2db8a-dc12-47f2-9737-99d3da921751/resource/47e4cbb0-e19c-47c5-9c74-b4f68448b0d4
+Last Date Modified: 2024-06-01
+
+
+
+
+Citations and Contacts:
+Aeromagnetic, Airborne Electromagnetic, Gravity and Radiometric Survey / Compilation Data 2024, Canadian Airborne Geophysical Data Base, Airborne Geophysics Section, Geological Survey of Canada, Lands and Minerals Sector, Natural Resources Canada Contact: infogdc-infocdg@nrcan-rncan.gc.ca
+Gravity Data (Geodetic Survey):
+2024, Canadian Geodetic Survey, Surveyor General Branch, Lands and Minerals Sector, Natural Resources Canada Contact: infogdc-infocdg@nrcan-rncan.gc.ca
