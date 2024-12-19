@@ -24,6 +24,9 @@ Feel free to check out the code and notebooks to learn more about these fascinat
 
 ## 🪨 Geoscience Challenges
 
+### core-values
+- A starter notebook for sedimentary facies segmentation using core images
+
 ### dark-side
 - A starter notebook for fault segmentation from seismic volumes and winning solutions for the Challenge
 
@@ -47,7 +50,7 @@ Feel free to check out the code and notebooks to learn more about these fascinat
 ## ⛏️ Critical Minerals
 
 ### tech-treasures
-- A starter notebook for the Tech Treasures bounty
+- A starter notebook for the Tech Treasures bounty and the winning solution
 
 ## 🧑‍🏫 Examples
 
