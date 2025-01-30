@@ -41,11 +41,17 @@ Feel free to check out the code and notebooks to learn more about these fascinat
 ### building-instinct
 - A notebook to identify trends in building energy usage and winning solutions for the Challenge
 
-### spot-the-trend
-- A starter notebook for detecting trends, with various sample submissions and a README detailing the project structure
+### dynamic-rhythms
+- A starter notebook for predicting extreme events ans power outages
 
 ### ghosts-of-holidays-past
 - A section containing scripts and notebooks related to energy forecasting using historical data, including data downloaders and winning solution notebooks
+
+### power-patterns
+- A notebook to get participants started designing their solutions for demand response programs and winning solutions for the Challenge
+
+### spot-the-trend
+- A starter notebook for detecting trends, with various sample submissions and a README detailing the project structure
 
 ## ⛏️ Critical Minerals
 
