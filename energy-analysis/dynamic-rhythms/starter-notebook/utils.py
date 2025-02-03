@@ -12,8 +12,6 @@ import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.filterwarnings('ignore', category=RuntimeWarning)
 
-from utils import *
-
 def plot_outages_on_map_us(start_time,
                            end_time,
                            data_directory = './data/eaglei_data'):
@@ -219,7 +217,7 @@ def plot_outages_on_map_state(start_time,
     cbar.ax.set_ylabel('')
     
     # Customize the plot
-    title = f'Power outage in {state}\nfrom {start_time.strftime('%Y-%m-%d')} to {end_time.strftime('%Y-%m-%d')}'
+    title = f"Power outage in {state}\nfrom {start_time.strftime('%Y-%m-%d')} to {end_time.strftime('%Y-%m-%d')}"
     ax.set_title(title, fontsize=14)
     ax.axis('off')  # Turn off the axis
     plt.show()
