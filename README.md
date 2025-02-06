@@ -42,7 +42,7 @@ Feel free to check out the code and notebooks to learn more about these fascinat
 - A notebook to identify trends in building energy usage and winning solutions for the Challenge
 
 ### dynamic-rhythms
-- A starter notebook for predicting extreme events ans power outages
+- A starter notebook for predicting extreme events and related power outages
 
 ### ghosts-of-holidays-past
 - A section containing scripts and notebooks related to energy forecasting using historical data, including data downloaders and winning solution notebooks
