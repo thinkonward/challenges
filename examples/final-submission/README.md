@@ -38,7 +38,8 @@ of your submission:
 ## Please refrain from attaching the following files to your submission (unless required by challenge rules):
 * challenge train/test data;
 * virtual environment files;
-* anything unrelated to the challenge.
+* anything unrelated to the challenge
+* any personal information
 
 ## More details about required files
 
