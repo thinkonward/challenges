@@ -1,6 +1,5 @@
 ### Challenge: Every Layer, Everywhere, All at Once: Segmenting Subsurface
 ### Team: San-Team
-### Email: example@gmail.com
 
 ### Python Version: 3.10
 
