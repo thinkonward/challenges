@@ -1,0 +1,5 @@
+CITY_URL_SHAPEFILE: 'https://earthworks.stanford.edu/download/file/stanford-bx729wr3020-shapefile.zip'
+COUNTY_URL_SHAPEFILE: 'https://www2.census.gov/geo/tiger/GENZ2023/shp/cb_2023_us_county_5m.zip'
+METEOROLOGICAL_API_URL: 'https://power.larc.nasa.gov/api/temporal/'
+METEOROLOGICAL_DOWNLOADABLE: 'https://huggingface.co/datasets/dhdzmota/dynamic-rythms-meteorological-information/resolve/main/meteorological.zip'
+RANDOM_SEED: 42

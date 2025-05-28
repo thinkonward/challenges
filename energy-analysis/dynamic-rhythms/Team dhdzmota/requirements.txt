@@ -1,0 +1,19 @@
+# project
+-e .
+
+# Staples
+jupyter==1.1.1
+
+# Development
+pandas==2.2.3
+geopandas==1.0.1
+pyarrow==19.0.1
+pyyaml==6.0.2
+shap==0.47.1
+scikit-learn==1.5.2
+mapie==0.9.2
+xgboost==3.0.0
+
+# Additional
+plotly==6.0.0
+matplotlib==3.10.1
