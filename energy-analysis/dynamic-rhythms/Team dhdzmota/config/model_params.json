@@ -1,0 +1,11 @@
+{
+    "n_estimators": 800,
+    "max_depth": 4,
+    "scale_ps_weight": 33.168818827212256,
+    "use_label_encoder": false,
+    "objective": "binary:logistic",
+    "eval_metric": "aucpr",
+    "reg_lambda": 1,
+    "subsample": 0.75,
+    "colsample_bytree": 0.75
+}

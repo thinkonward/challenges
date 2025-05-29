@@ -1,0 +1,22 @@
+-BEGIN HEADER-
+Parameter(s):
+T2M,Temperature at 2 Meters
+ALLSKY_SFC_SW_DWN,All Sky Surface Shortwave Downward Irradiance
+PS,Surface Pressure
+WS50M,Wind Speed at 50 Meters
+ALLSKY_SFC_LW_DWN,All Sky Surface Longwave Downward Irradiance
+WD50M,Wind Direction at 50 Meters
+PRECTOTCORR,Precipitation Corrected
+GWETPROF,Profile Soil Moisture
+CLRSKY_SFC_SW_DWN,Clear Sky Surface Shortwave Downward Irradiance
+QV10M,Specific Humidity at 10 Meters
+RHOA,Surface Air Density
+T10M,Temperature at 10 Meters
+TO3,Total Column Ozone
+TQV,Total Column Precipitable Water
+Z0M,Surface Roughness
+TOA_SW_DWN,Top-Of-Atmosphere Shortwave Downward Irradiance
+RH2M,Relative Humidity at 2 Meters
+WS2M,Wind Speed at 2 Meters
+CLRSKY_SFC_LW_DWN,Clear Sky Surface Longwave Downward Irradiance
+DISPH,Zero Plane Displacement Height
