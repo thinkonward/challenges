@@ -1,0 +1,16 @@
+torch==2.1.1+cu121
+torchvision==0.16.1+cu121
+torchmetrics==1.6.1
+numpy==1.26.3
+pandas==2.2.0
+opencv-python==4.10.0.82
+Matplotlib==3.7.3
+scipy==1.11.2
+Scikit-learn==1.2.2
+timm==0.9.7
+deepspeed==0.12.5
+pyarrow==16.0.0
+deltalake==0.25.5
+Pillow==10.2.0
+diffusers==0.33.0
+anytree==2.13.0

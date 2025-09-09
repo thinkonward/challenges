@@ -1,0 +1,4 @@
+EVA_16_Large_Split_10_Multi_MHA_4_heads: [0, 1, 2, 3, 4]  # all folds
+EVA_16_Large_Split_10_Multi_MHA_2_heads: [1, 2, 3, 4]  # Folds exclude Fold0
+EVA_16_Large_Split_9_Multi_MHA_4_heads: [0]  # Only Fold0
+EVA_16_Large_Split_10_Single_MHA_4_heads: [0, 1, 2, 3, 4]  # All Folds
