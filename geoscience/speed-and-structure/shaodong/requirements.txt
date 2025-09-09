@@ -1,0 +1,7 @@
+numpy==1.26.4
+opencv-python==4.10.0.84
+scikit-learn==1.7.1
+timm==0.9.7
+huggingface-hub==0.27.0
+natsort==8.4.0
+omegaconf
