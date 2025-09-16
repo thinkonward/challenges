@@ -1,0 +1,167 @@
+# ---------- Overriding hydra default configs ----------
+hydra:
+  job:
+    name: fwi
+  run:
+    dir: ${out_dir}
+
+# ---------- Default settings ----------
+defaults:
+  - dataset: fwi
+  - optimizer: adam
+  - scheduler: cosine
+
+  # For hydra colorlog
+  - override hydra/job_logging: default
+  - override hydra/hydra_logging: default
+
+
+# ---------- Other configs ----------
+
+#====
+# Preprocessing
+#====
+preprocessing:
+  h_resize_to: 1024
+  w_resize_to: 384
+  mean:  [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+
+#====
+# Model
+#====
+model:
+  name: model_v1
+  params:
+    image_size: [350,350]
+    patch_size: 14
+    base_model: vit_small_patch14_dinov2.lvd142m  # Pretrained model to load
+  
+
+#====
+# Model head
+#====
+head:
+  type: linear
+
+
+#====
+# Forwarder
+#====
+forwarder:
+  
+  use_amp: ${training.use_amp}
+  loss:
+    l1_weight: 1.0
+    velocity_weight: 0.0
+    mape_weight: 0.0
+    log_cosh_weight: 0.0
+    focal_gamma: 2
+    alpha: 0.01
+    weighted_dice_loss_weight: 0.0
+    smoothing: 0
+    class_weights: null
+        
+  mix:
+    type: null
+    mix_proba: 0.5
+    mix_alpha: 5
+    additive_mix: false
+    num_classes: ${dataset.num_classes}
+    mix_epoch: ${training.epoch} 
+    max_regions: 10
+
+#====
+# Dataset
+#====
+dataset:
+  type: ???
+  num_classes: ???
+
+
+#====
+# Data augmentation
+# Should have effect only in training (not in validation nor test)
+#====
+# augmentation: null
+augmentation:
+  in_chans: ${dataset.in_chans}
+  use_light_aug: false
+  use_light_aug2: false
+  use_light_aug3: false
+  use_light_aug4: false
+  use_light_aug5: false
+  use_light_aug6: false
+  use_light_aug7: false
+  use_aug: false
+  use_heavy_aug: false
+  shift: 0.0625
+  rotate: 30
+  scale: 0.2
+  p_shift_scale_rotate: 0.75
+  translate: 0.25
+  shear: 3
+  p_affine: 0.5
+  crop_scale: 0.9
+  crop_l: 0.75
+  crop_r: 1.0
+  p_gray: 0.1
+  p_blur: 0.25
+  p_noise: 0.25
+  p_downscale: 0.0
+  p_shuffle: 0.3
+  p_posterize: 0.2
+  p_bright_contrast: 0.5
+  p_cutout: 0.5
+  p_vertical_flip: 0.0
+  
+  
+
+#====
+# Training
+#====
+training:
+  project_name: fwi
+  resume_from: null  # If set, restore all training state from that checkpoint
+  debug: false  # If true, run in a debug mode
+  use_wandb: false # If true, WandbLogger will be used
+  seed: 0  # Random seed passed for seed_everything
+  monitor: val/mape
+  monitor_mode: min
+  gradient_clip_val: 0.5
+  accumulate_grad_batches: 1
+  sync_batchnorm: true
+  save_embed: false
+  decode_test: false
+  load_from: null
+  epoch: 10
+  batch_size: 16
+  batch_size_test: 16
+  num_gpus: 1
+  num_workers: 12
+  drop_last: true  # If true, drop the last incomplete batch in training phase
+  use_amp: true  # If true, use 16-bit precision for training
+  use_gradient_checkpointing: false
+
+
+#====
+# Optimizer
+#====
+optimizer:
+  type: ???
+
+
+#====
+# Scheduler
+#====
+scheduler:
+  type: ???
+  num_steps_per_epoch: null
+
+
+#====
+# Other essential configs
+#====
+out_dir: ./output_dir
+test_model: null  # If set, only run test with that model
+save_results: true

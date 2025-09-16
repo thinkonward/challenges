@@ -1,0 +1,14 @@
+type: fwi
+num_classes: 1
+num_folds: 5
+test_fold: 0  # Test fold for N-fold CV. Should be in [0, num_folds).
+val_fold: ${dataset.test_fold}  # Validation fold for N-fold CV. Should be in [0, num_folds).
+seed: 7
+num_records: 0
+phase: train
+in_chans: 3
+meta_path: data/meta_df.csv
+data_path: data
+pseudo_path: pseudolabels/ens086
+use_pseudo: false
+normalize_method: null 

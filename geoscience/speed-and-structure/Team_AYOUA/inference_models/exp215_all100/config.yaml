@@ -1,0 +1,130 @@
+dataset:
+  type: fwi
+  num_classes: 1
+  num_folds: -1
+  test_fold: 0
+  val_fold: ${dataset.test_fold}
+  seed: 7
+  num_records: 0
+  phase: train
+  in_chans: 3
+  meta_path: data/meta_all.csv
+  data_path: data
+  pseudo_path: pseudolabels/ens086
+  use_pseudo: false
+  normalize_method: null
+  flip: 0.5
+optimizer:
+  type: muon
+  lr: 0.0004
+  weight_decay: 0.01
+  beta1: 0.9
+  beta2: 0.999
+  eps: 1.0e-08
+  amsgrad: false
+scheduler:
+  type: constant_cosine
+  max_epochs: ${training.epoch}
+  warmup_steps_ratio: 0.5
+  num_cycles: 0.5
+  lr_decay_scale: 0.1
+  num_steps_per_epoch: null
+preprocessing:
+  h_resize_to: 1024
+  w_resize_to: 384
+  mean:
+  - 0.485
+  - 0.456
+  - 0.406
+  std:
+  - 0.229
+  - 0.224
+  - 0.225
+model:
+  name: model_v37
+  params:
+    image_size:
+    - 2660
+    - 182
+    patch_size: 14
+    base_model: eva02_large_patch14_clip_224
+    split_at: 6
+    fusion_method: mean
+head:
+  type: linear
+forwarder:
+  use_amp: ${training.use_amp}
+  loss:
+    l1_weight: 1.0
+    velocity_weight: 0.0
+    mape_weight: 0.0
+    log_cosh_weight: 0.0
+    focal_gamma: 2
+    alpha: 0.01
+    weighted_dice_loss_weight: 0.0
+    smoothing: 0
+    class_weights: null
+    hybrid_weight: 0.0
+  mix:
+    type: null
+    mix_proba: 0.5
+    mix_alpha: 5
+    additive_mix: false
+    num_classes: ${dataset.num_classes}
+    mix_epoch: ${training.epoch}
+    max_regions: 10
+augmentation:
+  in_chans: ${dataset.in_chans}
+  use_light_aug: false
+  use_light_aug2: false
+  use_light_aug3: false
+  use_light_aug4: false
+  use_light_aug5: false
+  use_light_aug6: false
+  use_light_aug7: false
+  use_aug: false
+  use_heavy_aug: false
+  shift: 0.0625
+  rotate: 30
+  scale: 0.2
+  p_shift_scale_rotate: 0.75
+  translate: 0.25
+  shear: 3
+  p_affine: 0.5
+  crop_scale: 0.9
+  crop_l: 0.75
+  crop_r: 1.0
+  p_gray: 0.1
+  p_blur: 0.25
+  p_noise: 0.25
+  p_downscale: 0.0
+  p_shuffle: 0.3
+  p_posterize: 0.2
+  p_bright_contrast: 0.5
+  p_cutout: 0.5
+  p_vertical_flip: 0.0
+training:
+  project_name: fwi
+  resume_from: null
+  debug: false
+  use_wandb: true
+  seed: 100
+  monitor: val/mape
+  monitor_mode: min
+  gradient_clip_val: 0.5
+  accumulate_grad_batches: 2
+  sync_batchnorm: false
+  save_embed: false
+  decode_test: false
+  load_from: null
+  epoch: 18
+  batch_size: 4
+  batch_size_test: 4
+  num_gpus: 2
+  num_workers: 8
+  drop_last: true
+  use_amp: true
+  use_gradient_checkpointing: false
+out_dir: results/exp215_all100
+test_model: null
+save_results: true

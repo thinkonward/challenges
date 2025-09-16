@@ -1,0 +1,8 @@
+type: muon
+lr: 4.0e-4
+weight_decay: 1.0e-2
+beta1: 0.9
+beta2: 0.95
+momentum: 0.95
+encoder_lr: ${lr}
+decoder_lr: ${lr}
