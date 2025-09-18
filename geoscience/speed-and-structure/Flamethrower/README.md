@@ -2,7 +2,7 @@
 <h1>1st Place Solution Report (flamethrower) for "ThinkOnward Speed and Structure" Challenge </h1>
 <h2>Challenge Website: <a href="https://thinkonward.com/app/c/challenges/speed-and-structure">Link</a></h2>
 <h2>Team Member: Damola Oriola</h2>
-<h2>Contact: damolaoriola@gmail.com </h2>
+<h2>Contact: [redacted] </h2>
 </div>
 
 
