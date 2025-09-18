@@ -1,3 +1,11 @@
+<div align="center">
+<h1>1st Place Solution Report (flamethrower) for "ThinkOnward Speed and Structure" Challenge </h1>
+<h2>Challenge Website: <a href="https://thinkonward.com/app/c/challenges/speed-and-structure">Link</a></h2>
+<h2>Team Member: Damola Oriola</h2>
+<h2>Contact: damolaoriola@gmail.com </h2>
+</div>
+
+
 # Short Description 
 This project is focused on implementing a seismic velocity model prediction system using multi-sources seismic input data processed with a Transformer-based EVA architecture. The model employs advanced multi-head attention mechanisms to effectively fuse information across multiple seismic sources, enhancing prediction accuracy.
 
@@ -23,10 +31,11 @@ conda activate onward
 
 ```
 2. Install requiremnts.txt:
-```
 
 # Project Structure
+
 The repository is structured as follows:
+
 ```
 .
 ├── README.md
@@ -34,10 +43,10 @@ The repository is structured as follows:
 ├── Submissions/
 ├── data/
 │   ├── test.csv
-│   ├── test_data
-│   ├── train_data
-│   ├── train_extended_1
-│   ├── train_extended_2
+│   ├── test_data/
+│   ├── train_data/
+│   ├── train_extended_1/
+│   ├── train_extended_2/
 │   ├── train_fold0.csv
 │   ├── train_fold1.csv
 │   ├── train_fold2.csv
@@ -53,14 +62,14 @@ The repository is structured as follows:
 ├── requirements.txt
 ├── run_training.py
 ├── speed_structure_checkpoints/
-│   ├── Checkpoints
+│   ├── Checkpoints/
 │   └── __init__.py
 ├── src/
 │   ├── __init__.py
-│   ├── __pycache__
+│   ├── __pycache__/
 │   ├── dataset.py
 │   ├── engine.py
-│   ├── models
+│   ├── models/
 │   ├── muon.py
 │   ├── prepare_data-test.py
 │   ├── prepare_data_train.py
@@ -69,58 +78,53 @@ The repository is structured as follows:
 │   ├── train_EVA_16_Large_Split_10_Single_MHA_4_heads.py
 │   ├── train_EVA_16_Large_Split_9_Multi_MHA_4_heads.py
 │   └── utils.py
-​
 ```
 
-- `README.md`: This file provides an overview and explanation of the project structure, usage, and instructions.
 
-- `Solution_pipeline.ipynb`: A Jupyter notebook containing a detailed solution report, including analysis, methodology, and results with ready to run training and inference
+- `README.md`: Provides an overview and explanation of the project structure, usage, and instructions.  
 
-- `Submissions/`: Directory to store trained model weights for each fold and model configuration during training. Also generated .npz file after inference.
+- `Solution_pipeline.ipynb`: Jupyter notebook containing the detailed solution report, including analysis, methodology, and results, with ready-to-run training and inference.  
 
-- `data/`: Contains dataset folders. The following datasets should be unzipped here into:
-        train_data
-        train_extended_1
-        train_extended_2
-        test_data
-    CSV files for each fold are generated according to the procedure in Solution_pipeline.ipynb.
+- `Submissions/`: Stores trained model weights for each fold and model configuration during training. Also contains the generated `.npz` file after inference.  
 
-- `model_folds.yaml`:Configuration file specifying fold assignments for each model. Used by run_training.py to automate training across folds and models.
+- `data/`: Contains dataset folders and CSV files.  
+  - Expected datasets (should be unzipped here):  
+    - `train_data/`  
+    - `train_extended_1/`  
+    - `train_extended_2/`  
+    - `test_data/`  
+  - CSV files for each fold are generated according to the procedure in `Solution_pipeline.ipynb`.  
 
-- `predict.py`: Script for generating predictions on the test dataset using trained models.
+- `model_folds.yaml`: Configuration file specifying fold assignments for each model. Used by `run_training.py` to automate training across folds and models.  
 
-- `requirements.txt`: Lists required Python packages and their specific versions for environment setup.
+- `predict.py`: Script for generating predictions on the test dataset using trained models.  
 
-- `run_training.py`: Script to automate the full training process by iterating through all folds and relevant training scripts (train_EVA_16_***.py) based on fold assignments in model_folds.yaml.
+- `requirements.txt`: Lists required Python packages and their specific versions for environment setup.  
 
-- `speed_structure_checkpoints/`: Contains trained model checkpoints under the subfolder Checkpoints/ used for inference.
+- `run_training.py`: Automates the full training process by iterating through all folds and relevant training scripts (`train_EVA_16_*.py`) based on fold assignments in `model_folds.yaml`.  
 
-- `src/`: Source code directory with various modules:
+- `speed_structure_checkpoints/`: Contains trained model checkpoints under the subfolder `Checkpoints/`, used for inference.  
 
-- `Dataset.py`: Dataset routines for loading seismic data and seismic velocity, converting to tensors for training and inference.
+- `src/`: Source code directory with various modules:  
+  - `dataset.py`: Dataset routines for loading seismic data and velocity, converting them to tensors for training and inference.  
+  - `engine.py`: Handles training and validation logic for one epoch.  
+  - `models/`: Contains model definitions and handlers, including EVA-16 variants with Multi-Head Attention.  
+    - `model_EVA_16_Large_Split_10_Multi_MHA_2_heads.py`  
+    - `model_EVA_16_Large_Split_10_Multi_MHA_4_heads.py`  
+    - `model_EVA_16_Large_Split_10_Single_MHA_4_heads.py`  
+    - `model_EVA_16_Large_Split_9_Multi_MHA_4_heads.py`  
+    - `model_EVA_MHA_Handler.py`  
+  - `muon.py`: Implementation of the Muon optimizer.  
+  - `prepare_data-test.py`: Generates CSV files for the test dataset, required by dataset and dataloader scripts.  
+  - `prepare_data-train.py`: Executes K-Means clustering on training data to identify seismic groups, then creates K-Fold CSV files (e.g., `train_fold0.csv`, `val_fold0.csv`) for training and validation.  
+  - **Training scripts (`train_EVA_16_*.py`)**: Each script runs training for a specific model configuration and fold. These are called with command-line arguments specifying the fold, data directory (absolute path), and checkpoint save path.  
+    - `train_EVA_16_Large_Split_10_Multi_MHA_2_heads.py`  
+    - `train_EVA_16_Large_Split_10_Multi_MHA_4_heads.py`  
+    - `train_EVA_16_Large_Split_10_Single_MHA_4_heads.py`  
+    - `train_EVA_16_Large_Split_9_Multi_MHA_4_heads.py`  
+  - `utils.py`: General utility functions used across the project.  
 
-- `engine.py`: Handles training and validation logic for one epoch.
 
-- `models`: Contains model definitions and handlers, including EVA 16 models with Multi-Head Attention.
-        model_EVA_16_Large_Split_10_Multi_MHA_2_heads.py
-        model_EVA_16_Large_Split_10_Multi_MHA_4_heads.py
-        model_EVA_16_Large_Split_10_Single_MHA_4_heads.py
-        model_EVA_16_Large_Split_9_Multi_MHA_4_heads.py
-        model_EVA_MHA_Handler.py
-        
-- `muon.py`: Implementation of the Muon optimizer.
-
-- `prepare_data-test.py`: Script to generate CSV files for the test dataset, required by dataset and dataloader scripts.
-
-- `prepare_data-train.py`: Executes K-Means clustering on training data to identify seismic groups, then creates K-Fold CSV files for training and validation folds (e.g., train_fold0.csv, val_fold0.csv). Required by dataset and dataloader scripts.
-
-- `Training scripts (train_EVA_16_*.py)`: Each script runs training for a specific model configuration and fold. These are called with command-line arguments specifying the fold, data directory (absolute path), and checkpoint save path. Manual runs are not required as run_training.py automates this process.
-        train_EVA_16_Large_Split_10_Multi_MHA_2_heads.py
-        train_EVA_16_Large_Split_10_Multi_MHA_4_heads.py
-        train_EVA_16_Large_Split_10_Single_MHA_4_heads.py
-        train_EVA_16_Large_Split_9_Multi_MHA_4_heads.py
-        
-- `utils.py`: General utility functions used across the project.
 
 
 # Solution Reproduction Note
@@ -133,10 +137,12 @@ Inference takes 9 minutes to inference the 3 models per 5 folds, ensemble and ma
 # Source Processing Improvements
 In order to show improvements with certain architetcure changes, I provide a table with the experiments conducted during the development of the solution. The table includes the Experiment Description and public MAPE score.
 
-| Experiment Id | Description | Public MAPE Score| Checkpoints|
-| --- | --- | --- |
-| 1 | One Fold EVA Large Split 10 + Mean average pooling channel (No attention)| 0.0246 - 0.0248 | NIL|
-| 2 | One Fold EVA Large Split 10 + Channel Multihead Attention(4 heads) + Mean Fusion| 0.02408 - 0.02419 |EVA_16_Large_Split_10_Single_MHA_4_heads|
-| 3 | One Fold EVA Large Split 10 + Channel Multihead Attention(4 heads) + Fusion Multihead Attention(4 heads) |0.02391 - 0.02398 |EVA_16_Large_Split_10_Dual_MHA_4_heads|
-| 4 | 5 Folds EVA Large Split 10 + Channel Multihead Attention(4 heads) + Fusion Multihead Attention(4 heads) |0.023491|EVA_16_Large_Split_10_Dual_MHA_4_heads|
-| 5 | 5 Folds Ensemble of 2, 3 + One additional configuration of Channel Multihead Fusion |0.023458|EVA_16_Large_Split_10_Single_MHA_4_heads, EVA_16_Large_Split_10_Dual_MHA_4_heads, EVA_16_Large_Split_10_Dual_MHA_2_heads, EVA_16_Large_Split_9_Dual_MHA_4_heads|
+## Experiment Results
+
+| Experiment Id | Description | Public MAPE Score | Checkpoints |
+|---------------|-------------|-------------------|-------------|
+| 1 | One Fold EVA Large Split 10 + Mean average pooling channel (No attention) | 0.0246 – 0.0248 | NIL |
+| 2 | One Fold EVA Large Split 10 + Channel Multihead Attention (4 heads) + Mean Fusion | 0.02408 – 0.02419 | EVA_16_Large_Split_10_Single_MHA_4_heads |
+| 3 | One Fold EVA Large Split 10 + Channel Multihead Attention (4 heads) + Fusion Multihead Attention (2 heads) | 0.02391 – 0.02398 | EVA_16_Large_Split_10_Dual_MHA_4_heads |
+| 4 | 5 Folds EVA Large Split 10 + Channel Multihead Attention (4 heads) + Fusion Multihead Attention (2 heads) | 0.023491 | EVA_16_Large_Split_10_Dual_MHA_4_heads |
+| 5 | 5 Folds Ensemble of 2, 3 + One additional configuration of Channel Multihead Fusion | 0.023458 | EVA_16_Large_Split_10_Single_MHA_4_heads, EVA_16_Large_Split_10_Dual_MHA_4_heads, EVA_16_Large_Split_10_Dual_MHA_2_heads, EVA_16_Large_Split_9_Dual_MHA_4_heads |
