@@ -33,6 +33,12 @@ Feel free to check out the code and notebooks to learn more about these fascinat
 ### image-impeccable
 - A starter notebook for seismic volume denoising and winning solutions for the Challenge
 
+### in-direto-da-fonte-reativado
+- A starter notebook for geochemistry investigation
+
+### speed-and-structure
+- A starternotebook and winning solutions for seismic inversion with AI
+
 ### stranger-sections-2
 - A comprehensive starter notebook with helper notebooks, checkpoints, and data
 
@@ -46,6 +52,9 @@ Feel free to check out the code and notebooks to learn more about these fascinat
 
 ### ghosts-of-holidays-past
 - A section containing scripts and notebooks related to energy forecasting using historical data, including data downloaders and winning solution notebooks
+
+### heat-signature-zero
+- A starter notebook for finding heat sources from sensor data
 
 ### power-patterns
 - A notebook to get participants started designing their solutions for demand response programs and winning solutions for the Challenge
