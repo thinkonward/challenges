@@ -1,4 +1,4 @@
-# Dark side of the volume
+# Speed and Structure
 
 <img src="assets/speed-n-structure.jpg" alt="challenge header image" width="600"/>
 
